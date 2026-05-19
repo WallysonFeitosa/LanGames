@@ -1,25 +1,25 @@
 # LanGames 🕹️
 Projeto destinado ao banco de dados para gestão de uma Lan House, visando facilitar a gestão de operações, clientes, equipamentos, aluguéis de máquinas e demais funcionalidades essenciais para uma lan house moderna.
 
-Responsaveis
-Wallyson Feitosa
-Gabriel Albuquerque
+Responsaveis<br>
+* Wallyson Feitosa<br>
+* Gabriel Albuquerque<br>
 -------
-Funcionalidades
-Gerenciamento de clientes
-Venda de produtos
-Controle de máquinas/estações
-Relatórios e estatísticas
-Sistema de reservas e aluguéis
-Controle de acesso
+Funcionalidades<br>
+* Gerenciamento de clientes<br>
+* Venda de produtos<br>
+* Controle de máquinas/estações<br>
+* Relatórios e estatísticas<br>
+* Sistema de reservas e aluguéis<br>
+* Controle de acesso<br>
 -------
-Ferramentas de criação
-BrModelo
-MySQL
-VS Code
+Ferramentas de criação<br>
+* BrModelo<br>
+* MySQL<br>
+* VS Code<br>
 -------
-Estrutura (DER)
-upload commit!
+Estrutura (DER)<br>
+* upload commit!<br>
 ------
-Estrutura (MER)
-upload coommit!
+Estrutura (MER)<br>
+* upload coommit!<br>

@@ -28,7 +28,8 @@ VALUES (2, 2, '2026-05-02 15:00:00', '2026-05-02 18:00:00', 60.00, 'pendente'); 
 INSERT INTO Inscricoes (ID_Cliente, ID_Torneio, data_inscricao) 
 VALUES (1, 1, '2026-05-10'); 
 INSERT INTO Inscricoes (ID_Cliente, ID_Torneio, data_inscricao) 
-VALUES (2, 2, '2026-05-11'); -- ========================================= -- UPDATES -- ========================================= 
+VALUES (2, 2, '2026-05-11'); 
+-- ========================================= -- UPDATES -- ========================================= 
 UPDATE Clientes 
 SET telefone = '81988887777' 
 WHERE ID_Cliente = 1; 
@@ -73,7 +74,8 @@ SET data_inscricao = '2026-05-15'
 WHERE ID_Inscricao = 1; 
 UPDATE Inscricoes 
 SET ID_Torneio = 1 
-WHERE ID_Inscricao = 2; -- ========================================= -- DELETES -- ========================================= 
+WHERE ID_Inscricao = 2; 
+-- ========================================= -- DELETES -- ========================================= 
 DELETE FROM Inscricoes 
 WHERE ID_Inscricao = 1; 
 DELETE FROM Inscricoes 

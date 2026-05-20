@@ -20,8 +20,8 @@ Ferramentas de criação<br>
 -------
 Estrutura (DER)<br>
 * upload commit!<br>
-<img width="571" height="381" alt="image" src="https://github.com/user-attachments/assets/06798111-53e9-4565-8649-de97e2230738" />
-------
+<img width="571" height="381" alt="image" src="https://github.com/user-attachments/assets/06798111-53e9-4565-8649-de97e2230738" /><br>
+-------
 Estrutura (MER)<br>
 * upload coommit!<br>
 <img width="964" height="652" alt="image" src="https://github.com/user-attachments/assets/bdb722fe-4a6b-4f98-b0a3-a3ee9ef8f7b3" /><br><br>

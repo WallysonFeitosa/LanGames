@@ -1,82 +1,95 @@
-CREATE DATABASE LanHouseGW; 
-USE LanHouseGW; 
- 
- 
-CREATE TABLE Clientes ( 
-    ID_Cliente INT AUTO_INCREMENT PRIMARY KEY, 
-    nome VARCHAR(100) NOT NULL, 
-    email VARCHAR(100) UNIQUE NOT NULL, 
-    telefone VARCHAR(20), 
-    data_cadastro DATE NOT NULL 
-); 
- 
- 
-CREATE TABLE Computadores ( 
-    ID_PC INT AUTO_INCREMENT PRIMARY KEY, 
-    modelo VARCHAR(100) NOT NULL, 
-    preco_hora DECIMAL(10,2) NOT NULL, 
-    status ENUM('ativo','inativo','manutencao') DEFAULT 'ativo' 
-); 
- 
- 
-CREATE TABLE Sessoes ( 
-    ID_Sessao INT AUTO_INCREMENT PRIMARY KEY, 
-    ID_Cliente INT NOT NULL, 
-    ID_PC INT NOT NULL, 
-    inicio DATETIME NOT NULL, 
-    fim DATETIME, 
-    valor_total DECIMAL(10,2), 
-    status_pag ENUM('pago','pendente') DEFAULT 'pendente', 
-    FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente), 
-    FOREIGN KEY (ID_PC) REFERENCES Computadores(ID_PC) 
-); 
- 
- 
-CREATE TABLE Produtos ( 
-    ID_Produto INT AUTO_INCREMENT PRIMARY KEY, 
-    nome VARCHAR(100) NOT NULL, 
-    preco_venda DECIMAL(10,2) NOT NULL, 
-    estoque INT NOT NULL 
-); 
- 
- 
-CREATE TABLE Consumo ( 
-    ID_Consumo INT AUTO_INCREMENT PRIMARY KEY, 
-    ID_Sessao INT NOT NULL, 
-    ID_Produto INT NOT NULL, 
-    quantidade INT NOT NULL, 
-    subtotal DECIMAL(10,2) GENERATED ALWAYS AS (quantidade * (SELECT preco_venda FROM 
-Produtos WHERE Produtos.ID_Produto = Consumo.ID_Produto)) STORED, 
-    FOREIGN KEY (ID_Sessao) REFERENCES Sessoes(ID_Sessao), 
-    FOREIGN KEY (ID_Produto) REFERENCES Produtos(ID_Produto) 
-); 
- 
- 
-CREATE TABLE Torneios ( 
-    ID_Torneio INT AUTO_INCREMENT PRIMARY KEY, 
-    nome VARCHAR(100) NOT NULL, 
-    data DATE NOT NULL, 
-    ID_Jogo INT, 
-    premio VARCHAR(100) 
-); 
- 
- 
-CREATE TABLE Inscricoes ( 
-    ID_Inscricao INT AUTO_INCREMENT PRIMARY KEY, 
-    ID_Cliente INT NOT NULL, 
-    ID_Torneio INT NOT NULL, 
-    data_inscricao DATE NOT NULL, 
-    FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente), 
-    FOREIGN KEY (ID_Torneio) REFERENCES Torneios(ID_Torneio) 
-); 
- 
-CREATE TABLE Audit_Log ( 
-    ID_Log INT AUTO_INCREMENT PRIMARY KEY, 
-    tabela_afetada VARCHAR(50) NOT NULL, 
-    operacao ENUM('INSERT','UPDATE','DELETE') NOT NULL, 
-    usuario VARCHAR(100), 
-    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
-); --------------------------------------------------------------------------------------------------------------- 
+CREATE DATABASE LanHouseGW;
+USE LanHouseGW;
+
+
+CREATE TABLE Clientes (
+    ID_Cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefone VARCHAR(20),
+    data_cadastro DATE NOT NULL
+);
+
+
+CREATE TABLE Computadores (
+    ID_PC INT AUTO_INCREMENT PRIMARY KEY,
+    modelo VARCHAR(100) NOT NULL,
+    preco_hora DECIMAL(10,2) NOT NULL,
+    status ENUM('ativo','inativo','manutencao') DEFAULT 'ativo'
+);
+
+
+CREATE TABLE Sessoes (
+    ID_Sessao INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Cliente INT NOT NULL,
+    ID_PC INT NOT NULL,
+    inicio DATETIME NOT NULL,
+    fim DATETIME,
+    valor_total DECIMAL(10,2),
+    status_pag ENUM('pago','pendente') DEFAULT 'pendente',
+    FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente),
+    FOREIGN KEY (ID_PC) REFERENCES Computadores(ID_PC)
+);
+
+
+CREATE TABLE Produtos (
+    ID_Produto INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco_venda DECIMAL(10,2) NOT NULL,
+    estoque INT NOT NULL
+);
+
+
+CREATE TABLE Consumo (
+    ID_Consumo INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Sessao INT NOT NULL,
+    ID_Produto INT NOT NULL,
+    quantidade INT NOT NULL,
+    subtotal DECIMAL(10,2),
+    FOREIGN KEY (ID_Sessao) REFERENCES Sessoes(ID_Sessao),
+    FOREIGN KEY (ID_Produto) REFERENCES Produtos(ID_Produto)
+);
+
+DELIMITER //
+CREATE TRIGGER calc_subtotal
+BEFORE INSERT ON Consumo
+FOR EACH ROW
+BEGIN
+    DECLARE preco DECIMAL(10,2);
+    SELECT preco_venda INTO preco FROM Produtos WHERE ID_Produto = NEW.ID_Produto;
+    SET NEW.subtotal = NEW.quantidade * preco;
+END;
+//
+DELIMITER ;
+
+
+
+CREATE TABLE Torneios (
+    ID_Torneio INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    data DATE NOT NULL,
+    ID_Jogo INT,
+    premio VARCHAR(100)
+);
+
+
+CREATE TABLE Inscricoes (
+    ID_Inscricao INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Cliente INT NOT NULL,
+    ID_Torneio INT NOT NULL,
+    data_inscricao DATE NOT NULL,
+    FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente),
+    FOREIGN KEY (ID_Torneio) REFERENCES Torneios(ID_Torneio)
+);
+
+CREATE TABLE Audit_Log (
+    ID_Log INT AUTO_INCREMENT PRIMARY KEY,
+    tabela_afetada VARCHAR(50) NOT NULL,
+    operacao ENUM('INSERT','UPDATE','DELETE') NOT NULL,
+    usuario VARCHAR(100),
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+--------------------------------------------------------------------------------------------------------------- 
  
  
 CREATE TRIGGER trg_clientes_insert 
